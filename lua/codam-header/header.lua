@@ -119,8 +119,8 @@ M.Update_header = function (options, comment, buffnr)
 		return false
 	end
 
-	vim.api.nvim_buf_set_lines(buffnr, 3, 3, false, { update_header(4, options, comment, buffnr) })
-	vim.api.nvim_buf_set_lines(buffnr, 8, 8, false, { update_header(9, options, comment, buffnr) })
+	vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })
+	vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })
 end
 
 return M
