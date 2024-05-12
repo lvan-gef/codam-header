@@ -1,3 +1,8 @@
+-- Prevent the plugin from being loaded more than once
+if vim.g.loaded_codamnormcheck then
+    return
+end
+
 local header = require("codam-header.header")
 local comment = require("codam-header.comment")
 
@@ -8,6 +13,9 @@ local options = {
 	author = "marvin",
 	email = "marvin@codam.nl",
 }
+
+-- set global state to be loaded
+vim.g.loaded_codamnormcheck = 1
 
 -- Merge user settings with defaults
 M.setup = function(opts)
