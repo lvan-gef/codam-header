@@ -1,9 +1,8 @@
 # codam-header
-A neovim plugin for inserting and updating the Codam header
+A neovim plugin for inserting and updating the Codam header.
+It is my first neovim plugin (and also lua) that can insert and update the Codam header in to your buffer.
 
-It is my first neovim plugin (and also lua) that can insert and update the Codam header in your buffer.
-
-# install
+# Install
 You can add it to your config via your plugin manager.
 Example for Lazy:
   {"lvan-gef/codam-header",
