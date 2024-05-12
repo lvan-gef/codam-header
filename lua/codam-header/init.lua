@@ -14,9 +14,6 @@ local options = {
 	email = "marvin@codam.nl",
 }
 
--- set global state to be loaded
-vim.g.loaded_codamheader = 1
-
 -- Merge user settings with defaults
 M.setup = function(opts)
 	opts = opts or {}
@@ -27,6 +24,9 @@ M.setup = function(opts)
 	end
 	options = opts
 end
+
+-- set global state to be loaded
+vim.g.loaded_codamheader = 1
 
 -- insert header
 M.insert = function()
