@@ -116,12 +116,13 @@ M.Update_header = function (options, comment, buffnr)
 		return false
 	end
 
-	if not check_header(comment, buffnr) then
-		return false
+	if check_header(comment, buffnr) then
+		vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })  -- update filename field
+		vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })  -- update dt field
+		return true
 	end
 
-	vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })  -- update filename field
-	vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })  -- update dt field
+	return false
 end
 
 return M
