@@ -14,8 +14,8 @@ Example for Lazy:
 # How to use it
 The plugin hase 2 function, 'insert' and 'update'.
 Insert:
-  Will insert the header at the top of your file
+  Will insert the header at the top of your file, if header not exists
 Update:
-  Will update the filename field and the update by field
+  Will update the filename field and the update by field, if header exists
 
 You can add those function to any keymap or autocmd
