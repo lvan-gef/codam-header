@@ -29,6 +29,10 @@ end
 -- Check if there is a header
 -- on this moment it only check if the first 10 lines are beginning or ending with a comment sign
 local function check_header(comment, buffnr)
+	if vim.api.nvim_buf_line_count(buffnr) < 9 then
+		return false;
+	end
+
 	local lines = vim.api.nvim_buf_get_lines(buffnr, 0, 9, true)
 	local pattern = comment[1] .. '.*' .. comment[2]
 
@@ -114,10 +118,6 @@ end
 M.Update_header = function (options, comment, buffnr)
 	if not vim.api.nvim_buf_get_option(buffnr, 'modified') then
 		return false
-	end
-
-	if vim.api.nvim_buf_line_count(buffnr) < 9 then
-		return false;
 	end
 
 	if check_header(comment, buffnr) then
