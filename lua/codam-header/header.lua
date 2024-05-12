@@ -98,7 +98,7 @@ end
 
 -- Insert the header if it is not present in the buffer
 M.Insert_header = function (options, comment, buffnr)
-	if check_header(comment, buffnr) then
+	if check_header(comment, buffnr) == true then
 		return false
 	end
 
@@ -116,7 +116,7 @@ M.Update_header = function (options, comment, buffnr)
 		return false
 	end
 
-	if check_header(comment, buffnr) then
+	if check_header(comment, buffnr) == true then
 		vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })  -- update filename field
 		vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })  -- update dt field
 		return true
