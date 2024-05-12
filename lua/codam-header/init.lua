@@ -1,8 +1,3 @@
--- Prevent the plugin from being loaded more than once
-if vim.g.loaded_codamheader then
-    return
-end
-
 local header = require("codam-header.header")
 local comment = require("codam-header.comment")
 
@@ -24,9 +19,6 @@ M.setup = function(opts)
 	end
 	options = opts
 end
-
--- set global state to be loaded
-vim.g.loaded_codamheader = 1
 
 -- insert header
 M.insert = function()
