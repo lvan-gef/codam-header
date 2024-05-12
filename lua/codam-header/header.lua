@@ -106,6 +106,7 @@ M.Insert_header = function (options, comment, buffnr)
 		vim.api.nvim_buf_set_lines(buffnr, i - 1, i - 1, false, { update_header(i, options, comment, buffnr) })
 	end
 
+	vim.api.nvim_buf_set_lines(buffnr, 11, 11, false, {""})
 	return true
 end
 
@@ -119,8 +120,8 @@ M.Update_header = function (options, comment, buffnr)
 		return false
 	end
 
-	vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })
-	vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })
+	vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })  -- update filename field
+	vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })  -- update dt field
 end
 
 return M
