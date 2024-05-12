@@ -1,5 +1,5 @@
 -- Prevent the plugin from being loaded more than once
-if vim.g.loaded_codamnormcheck then
+if vim.g.loaded_codamheader then
     return
 end
 
@@ -15,7 +15,7 @@ local options = {
 }
 
 -- set global state to be loaded
-vim.g.loaded_codamnormcheck = 1
+vim.g.loaded_codamheader = 1
 
 -- Merge user settings with defaults
 M.setup = function(opts)
