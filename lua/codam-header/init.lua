@@ -23,7 +23,6 @@ end
 -- insert header
 M.insert = function()
 	local buffnr = vim.api.nvim_get_current_buf()
-	print("buffnr: ", buffnr)
 	local com_signs = comment.Get_comment(buffnr)
 
 	if com_signs == nil then
