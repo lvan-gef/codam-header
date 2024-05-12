@@ -23,13 +23,25 @@ end
 -- insert header
 M.insert = function()
 	local buffnr = vim.api.nvim_get_current_buf()
-	local com_signs = comment.Get_comment(buffnr)
+	local com_sign = comment.Get_comment(buffnr)
 
-	if com_signs == nil then
+	if com_sign == nil then
 		return false
 	end
 
-	return header.Insert_header(options, com_signs, buffnr)
+	return header.Insert_header(options, com_sign, buffnr)
+end
+
+-- update header
+M.update = function()
+	local buffnr = vim.api.nvim_get_current_buf()
+	local com_sign = comment.Get_comment(buffnr)
+
+	if com_sign == nil then
+		return false
+	end
+
+	return header.Update_header(options, com_sign, buffnr)
 end
 
 return M

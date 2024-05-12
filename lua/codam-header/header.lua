@@ -109,11 +109,18 @@ M.Insert_header = function (options, comment, buffnr)
 	return true
 end
 
--- M.Update_header = function (options, buffnr)
--- 	-- check of er een header is
---
--- 	-- update velden
---
--- end
+-- Update header if header is in the buffer
+M.Update_header = function (options, comment, buffnr)
+	if not vim.api.nvim_buf_get_option(buffnr, 'modified') then
+		return false
+	end
+
+	if not check_header(comment, buffnr) then
+		return false
+	end
+
+	vim.api.nvim_buf_set_lines(buffnr, 3, 3, false, { update_header(4, options, comment, buffnr) })
+	vim.api.nvim_buf_set_lines(buffnr, 8, 8, false, { update_header(9, options, comment, buffnr) })
+end
 
 return M
