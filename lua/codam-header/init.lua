@@ -1,5 +1,5 @@
-local header = require("codam-header.header")
-local comment = require("codam-header.comment")
+local header = require("codam_header.header")
+local comment = require("codam_header.comment")
 
 local M = {}
 
