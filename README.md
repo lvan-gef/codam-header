@@ -29,10 +29,10 @@ The plugin provides two main functions: insert and update.
 
 Insert Header
 
-This function inserts the header into the current buffer if it is not already present.
+This function inserts the header into the current buffer if it is not already present.<br/>
 require('codam-header').insert()
 
 Update Header
 
-This function updates the header with the current date and other details if it is already present in the buffer.
+This function updates the header with the current date and other details if it is already present in the buffer.<br/>
 require('codam-header').update()
