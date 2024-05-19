@@ -1,21 +1,37 @@
-# codam-header
-A neovim plugin for inserting and updating the Codam header.
-It is my first neovim plugin (and also lua) that can insert and update the Codam header in to your buffer.
+# Codam Header Plugin
 
-# Install
-You can add it to your config via your plugin manager.
-Example for Lazy:
-  {"lvan-gef/codam-header",
-    opts = {
-      author = "intra_name",
-      email = "college email}
-  },
+This is a Neovim plugin that helps you manage file headers in various programming languages. The plugin inserts and updates headers with metadata such as the filename, author, and date.
 
-# How to use it
-The plugin hase 2 function, 'insert' and 'update'.
-Insert:
-  Will insert the header at the top of your file, if header not exists
-Update:
-  Will update the filename field and the update by field, if header exists
+## Features
 
-You can add those function to any keymap or autocmd
+- **Automatic Header Insertion**: Automatically insert a predefined header template at the beginning of your files.
+- **Automatic Header Update**: Update the header with the current date and other details when the file is modified.
+- **Supports Multiple Languages**: Handles comment styles for various programming languages.
+
+## Installation
+
+You can install this plugin using your preferred plugin manager.
+
+## Configuration
+
+You can configure the plugin by calling the setup function with your preferred options. Available options are:
+
+- author: The author's name.
+- email: The author's email.
+
+require('codam-header').setup({
+  author = 'Your Name',
+  email = 'your.email@example.com'
+})
+
+## Usage
+The plugin provides two main functions: insert and update.
+
+Insert Header
+This function inserts the header into the current buffer if it is not already present.
+require('codam-header').insert()
+
+Update Header
+This function updates the header with the current date and other details if it is already present in the buffer.
+
+require('codam-header').update()
