@@ -61,7 +61,7 @@ end
 
 --- Check if there is a header
 --- on this moment it only check if the first 10 lines are beginning or ending with a comment sign
---- @param comment string
+--- @param comment table
 --- @param buffnr integer
 --- @return boolean
 local function check_header(comment, buffnr)
@@ -99,7 +99,7 @@ end
 --- create a new line for a header given a line number of the header
 --- @param line_nbr integer
 --- @param options table
---- @param comment string
+--- @param comment table
 --- @param buffnr integer
 --- @return string
 local function update_header(line_nbr, options, comment, buffnr)
@@ -147,7 +147,7 @@ end
 
 --- Insert the header if it is not present in the buffer
 --- @param options table
---- @param comment string
+--- @param comment table
 --- @param buffnr integer
 --- @return boolean
 M.Insert_header = function(options, comment, buffnr)
@@ -165,7 +165,7 @@ end
 
 --- Update header if header is in the buffer
 --- @param options table
---- @param comment string
+--- @param comment table
 --- @param buffnr integer
 --- @return boolean
 M.Update_header = function(options, comment, buffnr)
