@@ -7,34 +7,70 @@ local header_wide = 80
 -- Every element has the following layout: {value of the field, char to pad the field, end column}
 -- There are also hardcoded names in the field please don't change them: prefix, filename, author, update_author, email_author, dt, suffix
 local lines_table = {
-	{{"prefix", " ", 3}, {"*", "*", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 58}, {"::::::::", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 5}, {"filename", " ", 56}, {":+:    :+:", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 55}, {"+:+", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 5}, {"By: ", " ", 9}, {"author_email", " ", 54}, {"+#+", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 53}, {"+#+", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 5}, {"Created: ", " ", 14}, {"dt", " ", 34}, {"by ", " ", 37}, {"author", " ", 51}, {"#+#    #+#", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {" ", " ", 5}, {"Updated: ", " ", 14}, {"dt", " ", 34}, {"by ", " ", 37}, {"author", " ", 51}, {"########   odam.nl", " ", header_wide}, {"suffix", " ", header_wide}},
-	{{"prefix", " ", 3}, {"suffix", " ", 80}},
-	{{"prefix", " ", 3}, {"*", "*", header_wide}, {"suffix", " ", header_wide}},
+	{ { "prefix", " ", 3 }, { "*", "*", header_wide }, { "suffix", " ", header_wide } },
+	{ { "prefix", " ", 3 }, { "suffix", " ", header_wide } },
+	{ { "prefix", " ", 3 }, { " ", " ", 58 }, { "::::::::", " ", header_wide }, { "suffix", " ", header_wide } },
+	{
+		{ "prefix", " ", 3 },
+		{ " ", " ", 5 },
+		{ "filename", " ", 56 },
+		{ ":+:    :+:", " ", header_wide },
+		{ "suffix", " ", header_wide },
+	},
+	{ { "prefix", " ", 3 }, { " ", " ", 55 }, { "+:+", " ", header_wide }, { "suffix", " ", header_wide } },
+	{
+		{ "prefix", " ", 3 },
+		{ " ", " ", 5 },
+		{ "By: ", " ", 9 },
+		{ "author_email", " ", 54 },
+		{ "+#+", " ", header_wide },
+		{ "suffix", " ", header_wide },
+	},
+	{ { "prefix", " ", 3 }, { " ", " ", 53 }, { "+#+", " ", header_wide }, { "suffix", " ", header_wide } },
+	{
+		{ "prefix", " ", 3 },
+		{ " ", " ", 5 },
+		{ "Created: ", " ", 14 },
+		{ "dt", " ", 34 },
+		{ "by ", " ", 37 },
+		{ "author", " ", 51 },
+		{ "#+#    #+#", " ", header_wide },
+		{ "suffix", " ", header_wide },
+	},
+	{
+		{ "prefix", " ", 3 },
+		{ " ", " ", 5 },
+		{ "Updated: ", " ", 14 },
+		{ "dt", " ", 34 },
+		{ "by ", " ", 37 },
+		{ "author", " ", 51 },
+		{ "########   odam.nl", " ", header_wide },
+		{ "suffix", " ", header_wide },
+	},
+	{ { "prefix", " ", 3 }, { "suffix", " ", 80 } },
+	{ { "prefix", " ", 3 }, { "*", "*", header_wide }, { "suffix", " ", header_wide } },
 }
 
--- get the filename of current buffer
+--- get the filename of current buffer
+--- @param buffnr integer
+--- @return string
 local function get_filename(buffnr)
 	local fullname = vim.api.nvim_buf_get_name(buffnr)
 	return vim.fn.fnamemodify(fullname, ":t")
 end
 
--- Check if there is a header
--- on this moment it only check if the first 10 lines are beginning or ending with a comment sign
+--- Check if there is a header
+--- on this moment it only check if the first 10 lines are beginning or ending with a comment sign
+--- @param comment string
+--- @param buffnr integer
+--- @return boolean
 local function check_header(comment, buffnr)
 	if vim.api.nvim_buf_line_count(buffnr) < 9 then
-		return false;
+		return false
 	end
 
 	local lines = vim.api.nvim_buf_get_lines(buffnr, 0, 9, true)
-	local pattern = comment[1] .. '.*' .. comment[2]
+	local pattern = comment[1] .. ".*" .. comment[2]
 
 	for _, line in ipairs(lines) do
 		if string.match(line, pattern) == nil then
@@ -45,7 +81,11 @@ local function check_header(comment, buffnr)
 	return true
 end
 
--- right pad a string with a given char and len
+--- right pad a string with a given char and len
+--- @param str string
+--- @param len integer
+--- @param sep string
+--- @return unknown
 local function right_pad(str, len, sep)
 	local str_len = string.len(str)
 
@@ -56,7 +96,12 @@ local function right_pad(str, len, sep)
 	return str
 end
 
--- create a new line for a header given a line number of the header
+--- create a new line for a header given a line number of the header
+--- @param line_nbr integer
+--- @param options table
+--- @param comment string
+--- @param buffnr integer
+--- @return string
 local function update_header(line_nbr, options, comment, buffnr)
 	local line = ""
 	local open_comment = comment[1]
@@ -86,7 +131,7 @@ local function update_header(line_nbr, options, comment, buffnr)
 		elseif field[1] == "suffix" then
 			local suffix_len = close_comment_len
 
-			line = right_pad(line, field[3] - suffix_len, ' ')
+			line = right_pad(line, field[3] - suffix_len, " ")
 			if string.len(line) > header_wide - suffix_len then
 				line = string.sub(line, 1, header_wide - suffix_len)
 			end
@@ -100,8 +145,12 @@ local function update_header(line_nbr, options, comment, buffnr)
 	return line
 end
 
--- Insert the header if it is not present in the buffer
-M.Insert_header = function (options, comment, buffnr)
+--- Insert the header if it is not present in the buffer
+--- @param options table
+--- @param comment string
+--- @param buffnr integer
+--- @return boolean
+M.Insert_header = function(options, comment, buffnr)
 	if check_header(comment, buffnr) then
 		return false
 	end
@@ -110,20 +159,23 @@ M.Insert_header = function (options, comment, buffnr)
 		vim.api.nvim_buf_set_lines(buffnr, i - 1, i - 1, false, { update_header(i, options, comment, buffnr) })
 	end
 
-	vim.api.nvim_buf_set_lines(buffnr, 11, 11, false, {""})
+	vim.api.nvim_buf_set_lines(buffnr, 11, 11, false, { "" })
 	return true
 end
 
--- Update header if header is in the buffer
-M.Update_header = function (options, comment, buffnr)
-	if not vim.api.nvim_buf_get_option(buffnr, 'modified') then
+--- Update header if header is in the buffer
+--- @param options table
+--- @param comment string
+--- @param buffnr integer
+--- @return boolean
+M.Update_header = function(options, comment, buffnr)
+	if not vim.api.nvim_buf_get_option(buffnr, "modified") then
 		return false
 	end
 
 	if check_header(comment, buffnr) then
-
-		vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) })  -- update filename field
-		vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) })  -- update dt field
+		vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) }) -- update filename field
+		vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) }) -- update dt field
 		return true
 	end
 

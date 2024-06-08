@@ -9,7 +9,8 @@ local options = {
 	email = "marvin@codam.nl",
 }
 
--- Merge user settings with defaults
+--- Merge user settings with defaults
+--- @param opts table
 M.setup = function(opts)
 	opts = opts or {}
 	for k, v in pairs(options) do
@@ -20,7 +21,8 @@ M.setup = function(opts)
 	options = opts
 end
 
--- insert header
+--- insert header
+--- @return boolean
 M.insert = function()
 	local buffnr = vim.api.nvim_get_current_buf()
 	local com_sign = comment.Get_comment(buffnr)
@@ -32,7 +34,8 @@ M.insert = function()
 	return header.Insert_header(options, com_sign, buffnr)
 end
 
--- update header
+--- update header
+--- @return boolean
 M.update = function()
 	local buffnr = vim.api.nvim_get_current_buf()
 	local com_sign = comment.Get_comment(buffnr)
