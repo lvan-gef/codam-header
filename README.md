@@ -1,6 +1,6 @@
 # Codam Header Plugin
 
-This is a Neovim plugin that helps you manage file headers in various programming languages. The plugin inserts and updates headers with metadata such as the filename, author, and date.
+This is a Neovim plugin that helps you manage file headers in various programming languages. The plugin inserts and updates headers with metadata such as the filename, author, and date. It is kinda forked from the vscode-codam-header.
 
 ## Features
 
