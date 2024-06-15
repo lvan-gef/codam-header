@@ -1,4 +1,16 @@
-local M = {}
+-- ************************************************************************** --
+--                                                                            --
+--                                                        ::::::::            --
+--   comment.lua                                        :+:    :+:            --
+--                                                     +:+                    --
+--   By: lvan-gef <lvan-gef@student.codam.nl>         +#+                     --
+--                                                   +#+                      --
+--   Created: 2024/06/15 22:06:53 by lvan-gef      #+#    #+#                 --
+--   Updated: 2024/06/15 22:07:02 by lvan-gef      ########   odam.nl         --
+--                                                                            --
+-- ************************************************************************** --
+
+local comments = {}
 
 local comments_map = {
 	hashes = { "# ", " #" },
@@ -61,7 +73,7 @@ local program_map = {
 --- Get the comment sign for the language
 --- @param buffnr integer
 --- @return table | nil
-function M.Get_comment(buffnr)
+function comments.Get_comment(buffnr)
 	local lang = vim.api.nvim_buf_get_option(buffnr, "filetype")
 	lang = string.lower(lang)
 
@@ -76,4 +88,4 @@ function M.Get_comment(buffnr)
 	return nil
 end
 
-return M
+return comments

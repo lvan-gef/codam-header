@@ -1,4 +1,16 @@
-local M = {}
+-- ************************************************************************** --
+--                                                                            --
+--                                                        ::::::::            --
+--   header.lua                                         :+:    :+:            --
+--                                                     +:+                    --
+--   By: lvan-gef <lvan-gef@student.codam.nl>         +#+                     --
+--                                                   +#+                      --
+--   Created: 2024/06/15 22:05:56 by lvan-gef      #+#    #+#                 --
+--   Updated: 2024/06/15 22:06:48 by lvan-gef      ########   odam.nl         --
+--                                                                            --
+-- ************************************************************************** --
+
+local header = {}
 
 local header_wide = 80
 
@@ -150,7 +162,7 @@ end
 --- @param comment table
 --- @param buffnr integer
 --- @return boolean
-M.Insert_header = function(options, comment, buffnr)
+header.Insert_header = function(options, comment, buffnr)
 	if check_header(comment, buffnr) then
 		return false
 	end
@@ -168,7 +180,7 @@ end
 --- @param comment table
 --- @param buffnr integer
 --- @return boolean
-M.Update_header = function(options, comment, buffnr)
+header.Update_header = function(options, comment, buffnr)
 	if not vim.api.nvim_buf_get_option(buffnr, "modified") then
 		return false
 	end
@@ -182,4 +194,4 @@ M.Update_header = function(options, comment, buffnr)
 	return false
 end
 
-return M
+return header

@@ -1,3 +1,15 @@
+-- ************************************************************************** --
+--                                                                            --
+--                                                        ::::::::            --
+--   init.lua                                           :+:    :+:            --
+--                                                     +:+                    --
+--   By: lvan-gef <lvan-gef@student.codam.nl>         +#+                     --
+--                                                   +#+                      --
+--   Created: 2024/06/15 22:05:47 by lvan-gef      #+#    #+#                 --
+--   Updated: 2024/06/15 22:05:50 by lvan-gef      ########   odam.nl         --
+--                                                                            --
+-- ************************************************************************** --
+
 local header = require("codam-header.header")
 local comment = require("codam-header.comment")
 
