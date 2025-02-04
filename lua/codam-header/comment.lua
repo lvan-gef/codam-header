@@ -72,7 +72,7 @@ local program_map = {
 
 --- Get the comment sign for the language
 --- @return table | nil
-function comments.Get_comment()
+function comments.get_comment()
   local lang = vim.bo.filetype
   lang = string.lower(lang)
 

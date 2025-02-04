@@ -10,8 +10,9 @@
 --                                                                            --
 -- ************************************************************************** --
 
-local header = {}
+local comment = require("codam-header.comment")
 
+local header = {}
 local header_wide = 80
 
 -- Is a mapping for the codam header
@@ -73,16 +74,16 @@ end
 
 --- Check if there is a header
 --- on this moment it only check if the first 10 lines are beginning or ending with a comment sign
---- @param comment table
+--- @param com_sign table
 --- @param buffnr integer
 --- @return boolean
-local function check_header(comment, buffnr)
+local function check_header(com_sign, buffnr)
   if vim.api.nvim_buf_line_count(buffnr) < 9 then
     return false
   end
 
   local lines = vim.api.nvim_buf_get_lines(buffnr, 0, 9, true)
-  local pattern = comment[1] .. ".*" .. comment[2]
+  local pattern = com_sign[1] .. ".*" .. com_sign[2]
 
   for _, line in ipairs(lines) do
     if string.match(line, pattern) == nil then
@@ -97,7 +98,7 @@ end
 --- @param str string
 --- @param len integer
 --- @param sep string
---- @return unknown
+--- @return string
 local function right_pad(str, len, sep)
   local str_len = string.len(str)
 
@@ -111,13 +112,13 @@ end
 --- create a new line for a header given a line number of the header
 --- @param line_nbr integer
 --- @param options table
---- @param comment table
+--- @param com_sign table
 --- @param buffnr integer
 --- @return string
-local function update_header(line_nbr, options, comment, buffnr)
+local function update_header(line_nbr, options, com_sign, buffnr)
   local line = ""
-  local open_comment = comment[1]
-  local close_comment = comment[2]
+  local open_comment = com_sign[1]
+  local close_comment = com_sign[2]
   local open_comment_len = string.len(open_comment)
   local close_comment_len = string.len(close_comment)
 
@@ -159,16 +160,21 @@ end
 
 --- Insert the header if it is not present in the buffer
 --- @param options table
---- @param comment table
 --- @param buffnr integer
 --- @return boolean
-header.Insert_header = function(options, comment, buffnr)
-  if check_header(comment, buffnr) then
+header.insert = function(options, buffnr)
+  local com_sign = comment.get_comment()
+
+  if com_sign == nil then
+    return false
+  end
+
+  if check_header(com_sign, buffnr) then
     return false
   end
 
   for i = 1, #lines_table, 1 do
-    vim.api.nvim_buf_set_lines(buffnr, i - 1, i - 1, false, { update_header(i, options, comment, buffnr) })
+    vim.api.nvim_buf_set_lines(buffnr, i - 1, i - 1, false, { update_header(i, options, com_sign, buffnr) })
   end
 
   vim.api.nvim_buf_set_lines(buffnr, 11, 11, false, { "" })
@@ -177,17 +183,22 @@ end
 
 --- Update header if header is in the buffer
 --- @param options table
---- @param comment table
 --- @param buffnr integer
 --- @return boolean
-header.Update_header = function(options, comment, buffnr)
+header.update = function(options, buffnr)
   if not vim.api.nvim_buf_get_option(buffnr, "modified") then
     return false
   end
 
-  if check_header(comment, buffnr) then
-    vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, comment, buffnr) }) -- update filename field
-    vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, comment, buffnr) }) -- update dt field
+  local com_sign = comment.get_comment()
+
+  if com_sign == nil then
+    return false
+  end
+
+  if check_header(com_sign, buffnr) then
+    vim.api.nvim_buf_set_lines(buffnr, 3, 4, false, { update_header(4, options, com_sign, buffnr) }) -- update filename field
+    vim.api.nvim_buf_set_lines(buffnr, 8, 9, false, { update_header(9, options, com_sign, buffnr) }) -- update dt field
     return true
   end
 
