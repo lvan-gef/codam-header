@@ -186,7 +186,8 @@ end
 --- @param buffnr integer
 --- @return boolean
 header.update = function(options, buffnr)
-  if not vim.api.nvim_buf_get_option(buffnr, "modified") then
+  local buff_options = vim.api.nvim_get_option_value("modified", { buf = buffnr})
+  if not buff_options then
     return false
   end
 
