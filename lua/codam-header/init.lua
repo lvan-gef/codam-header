@@ -17,46 +17,46 @@ local M = {}
 
 -- default setting for the user
 local options = {
-	author = "marvin",
-	email = "marvin@codam.nl",
+  author = "marvin",
+  email = "marvin@codam.nl",
 }
 
 --- Merge user settings with defaults
 --- @param opts table
 M.setup = function(opts)
-	opts = opts or {}
-	for k, v in pairs(options) do
-		if opts[k] == nil then
-			opts[k] = v
-		end
-	end
-	options = opts
+  opts = opts or {}
+  for k, v in pairs(options) do
+    if opts[k] == nil then
+      opts[k] = v
+    end
+  end
+  options = opts
 end
 
 --- insert header
 --- @return boolean
 M.insert = function()
-	local buffnr = vim.api.nvim_get_current_buf()
-	local com_sign = comment.Get_comment(buffnr)
+  local buffnr = vim.api.nvim_get_current_buf()
+  local com_sign = comment.Get_comment()
 
-	if com_sign == nil then
-		return false
-	end
+  if com_sign == nil then
+    return false
+  end
 
-	return header.Insert_header(options, com_sign, buffnr)
+  return header.Insert_header(options, com_sign, buffnr)
 end
 
 --- update header
 --- @return boolean
 M.update = function()
-	local buffnr = vim.api.nvim_get_current_buf()
-	local com_sign = comment.Get_comment(buffnr)
+  local buffnr = vim.api.nvim_get_current_buf()
+  local com_sign = comment.Get_comment()
 
-	if com_sign == nil then
-		return false
-	end
+  if com_sign == nil then
+    return false
+  end
 
-	return header.Update_header(options, com_sign, buffnr)
+  return header.Update_header(options, com_sign, buffnr)
 end
 
 return M
